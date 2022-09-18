@@ -1,11 +1,16 @@
 import hashlib
 import sys
 
-string_to_work = str(input("input the string you want to pow: "))
+string_to_work = str(sys.argv[1])
 # diff = int(input("input the difficulty you want: "))
-max_iter = int(input("input the amount of iterations you want to do: "))
-# min_diff = float('inf')
-# min_hash = ""
+max_iter = int(sys.argv[2])
+print("string: " + string_to_work)
+print("iterations: " + str(max_iter))
+print("start")
+
+min_diff = float('inf')
+min_hash = ""
+final_nonce = 0
 nonce = 0
 
 #TODO: terminar de maquetear los siguientes TODOs y despues empezar a optimizarlo. (usar rust? go?)
@@ -15,21 +20,25 @@ nonce = 0
 for i in range(max_iter):
     string_with_nonce = string_to_work + " " + str(nonce)
     hashed = hashlib.sha256(string_with_nonce.encode('utf-8')).hexdigest()
-    if i % 1000:
-        print("\t" + str((i * 100) / max_iter) + "%", end='\r')
+    # if i % 1000:
+        # print("\t" + str((i * 100) / max_iter) + "%", end='\r')
     
     #TODO: no tener hardcodeada la diff, si no que dadas las max iteraciones, encontrar el hash con menor valor numerico.
 
     #TODO: Implementar una dificultad opcional dada por input, que si sale con esa, breakea el loop y ya te devuelve tu string con nonce y su hash.
-    if hashed[:8] == "00000000":
-        print("\t" + str((i * 100) / max_iter) + "%")
+    if int(hashed, 16) < min_diff:
+        min_diff = int(hashed, 16)
+        print(string_with_nonce)
+        print(hashed)
         min_hash = hashed
-        break
+        final_nonce = nonce
+        best_hash = string_with_nonce
 
+        
 
     nonce += 1
 
-print(string_with_nonce)
+print(best_hash)
 print(min_hash)
 
 
