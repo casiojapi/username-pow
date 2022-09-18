@@ -21,7 +21,7 @@ for i in range(max_iter):
     #TODO: no tener hardcodeada la diff, si no que dadas las max iteraciones, encontrar el hash con menor valor numerico.
 
     #TODO: Implementar una dificultad opcional dada por input, que si sale con esa, breakea el loop y ya te devuelve tu string con nonce y su hash.
-    if hashed[:6] == "000000":
+    if hashed[:8] == "00000000":
         print("\t" + str((i * 100) / max_iter) + "%")
         min_hash = hashed
         break
@@ -31,4 +31,5 @@ for i in range(max_iter):
 
 print(string_with_nonce)
 print(min_hash)
- 
+
+
